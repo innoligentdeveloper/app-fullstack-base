@@ -11,14 +11,14 @@ class Main{
         for (let obj in listaUsr){
             listaUsr[obj].printInfo();
         }
-    }
-    public getElementById():HTMLElement{
-        return document.getElementById("boton"); //hace referencia al documento html
+        let myFramework:MyFramework= new MyFramework();
+        let boton=myFramework.getElementById();
+        boton.textContent="cambio de nombre"
     }
 }
 window.onload=function inicializar() {
     let miObjMain:Main = new Main();
     miObjMain.main();
-    let boton = miObjMain.getElementById();
-    boton.textContent="NUEVO TEXTO"
+  //  let boton = miObjMain.getElementById();
+    //boton.textContent="NUEVO TEXTO"
 };
