@@ -22,7 +22,6 @@ app.post('/insertupdate/', function(req, res) {
     let description =req.body.description;
     let state =req.body.state;
     let type =req.body.type;
-    console.log("ENTRANDO INSERTAR");
     //SI EL ID ES "" ES INSERT SINO ES UPDATE
     if (elId==""){
         //EJECUTO EL INSERT

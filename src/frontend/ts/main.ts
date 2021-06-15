@@ -128,11 +128,8 @@ class Main implements EventListenerObject, HandlerPost{
                     //MODIFICAR EXISTENTE
                     data = {"id":`${id_mod}`,"name":`${nombre}`,"description":`${descripcion}`,"state":"0","type":`${tipo}`};  
                 }
-
-                alert("ID:"+data.id + " Name: " + data.name+ " - " + data.description+ " State: " + data.state+ " Type: " + data.type)
-
+              //  alert("ID:"+data.id + " Name: " + data.name+ " - " + data.description+ " State: " + data.state+ " Type: " + data.type)
                 this.myFramework.requestPOST(`http://localhost:8000/insertupdate/`, this, data);
-                //SE REFRESCA EL FORMULARIO PARA QUE SE ACTUALICEN LOS CAMBIOS REALIZADOS
                 break;   
             //CUANDO SE PRESIONA EL BOTON "EDITAR" SE INGRESA POR AQUI:
             case "edit":
@@ -165,9 +162,10 @@ class Main implements EventListenerObject, HandlerPost{
         }
     }
     responsePost(status: number, response: string) {
+        alert(response);
         console.log(response);
+        //SE REFRESCA EL FORMULARIO PARA QUE SE ACTUALICEN LOS CAMBIOS REALIZADOS
         location.reload();
-        //alert(response);
     }
 }
 //PROCEDIMIENTO INICIAL QUE SE EJECUTA EN LA ACCION "LOAD"
@@ -181,7 +179,3 @@ window.addEventListener("load", ()=> {
     let modal: HTMLElement = miObjMain.myFramework.getElementById("modal1");
     modal.addEventListener("click", miObjMain);
 });
-
-
-
-

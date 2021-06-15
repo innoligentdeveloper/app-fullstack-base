@@ -10,7 +10,7 @@ Indice de contenidos:
 - [Frontend](#frontend)
 - [Backend](#backend)
 - [Base de datos](#base-de-datos)
-- [Licence](#licence)
+- [Licencia](#licencia)
 
 # Instalación 
 Para la instalación necesitaremos ejecutar los comandos que se describen a continuación para cada una de las correspondientes tareas.
@@ -115,6 +115,8 @@ docker-compose restart
 ```
 
 # Frontend
+Una vez realizada la instalación anterior, ingrese desde un navegador de internet a la url: http://localhost:8000 para visualizar la página web.
+
 Para el frontend del sistema se utilizó el framework CSS de Materialize (https://materializecss.com)
 Para la programación se utilizó Typescript y HTML.
 
@@ -133,9 +135,13 @@ En la figura se muestra la página al editar un dispositivo existente.
 
 También se puede realizar el dimerizado o el encendido y apagado de cada dispositivo. Dicho cambio impacta directamente en la base de datos.
 
-En un futuro, ese cambio impactará en los dispositivos reales. Para esto será necesario agregar campos a la base de dato y nuevos procedimientos del lado del servidor.
+En un futuro, ese cambio impactará en los dispositivos reales. Para esto, será necesario agregar campos a la base de datos y nuevos procedimientos del lado del servidor.
 
 Dentro del código del programa se pueden ver las notas de documentación sobre qué es lo que hace cada pedacito de código en particular.
+
+En la figura se muestra un ejemplo de estas notas sobre la funcionalidad del código en cada caso.
+![frontend](doc/docucode.png)
+
 
 # Backend
 En el lado del backend se programaron las llamadas a la base de datos para que se inserten, actualicen y borren los datos de los dispositivos. También se realiza el envío de la respuesta al frontend con los datos necesarios en formato JSON.
@@ -143,13 +149,10 @@ En el lado del backend se programaron las llamadas a la base de datos para que s
 En el código se podrán observar todos los métodos encargados de guardar los datos provenientes del frontend.
 Se optó por utilizar solo recepción de métodos por POST y no GET, debido a que en el POST los datos viajan ocultos en el body. Para los métodos POST, se recojen los datos desde el objeto `req.body`.
 
-Dentro del código del programa se pueden ver las notas de documentación sobre qué es lo que hace cada pedacito de código en particular.
+Dentro del código del programa del backen se optó por la misma metodología de documentación a través de notas sobre qué es lo que hace cada pedacito de código en particular.
 
 # Base de datos
 Como vimos anteriormente en la instalación, se utiliza una base de datos MySQL que consta de una tabla llamada `Devices` con la siguiente estructura:
-
-Esto iniciará los siguientes servicios:
-
 - `id` int(11) NOT NULL
 - `name` varchar(64) NOT NULL
 - `description` varchar(128) NOT NULL
@@ -161,6 +164,8 @@ El campo `id` se utiliza como clave primaria.
 El campo `state` almacena el estado del dispositivo, si es encendido y apagado utilizará los valores 1 y 0, respectivamente. En cambio para el tipo dimmer el valor del estado puede variar desde 0 a 100.
 
 El campo `type` en 0 indica interruptor y en 1 indica dimmer.
+
+Para acceder al administrador de base de datos phpmyadmin, ingrese desde un navegador de internet a la url: http://localhost:8001 con usuario 'root' y contraseña 'userpass'.
 
 # Licencia
 Este proyecto está bajo Licencia ([MIT](https://choosealicense.com/licenses/mit/)). Podés ver el archivo [LICENSE.md](LICENSE.md) para más detalles sobre el uso de este material.
