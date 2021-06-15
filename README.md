@@ -21,6 +21,7 @@ https://github.com/innoligentdeveloper/app-fullstack-base.git
 En nuestro caso los copiaremos a modo de ejemplo en 'cd /home/usuario/app-fullstack-base'. Donde 'usuario' debe reemplazarse por el nombre de usuario correspondiente de la terminal linux.
 
 Instalación de Docker:
+
 Se instalará docker y docker-compose, teniendo en cuenta que la distribución Linux deberá ser debian 9 o superior.
 ```sh
 sudo apt-get update 
@@ -53,7 +54,8 @@ sudo docker run hello-world
 ```
 Si la instalación ha concluido exitosamente, se mostrará por consola el mensaje de saludo del hello-world.
 
-Instalar Docker-compose:
+
+Instalar ahora el Docker-compose:
 
 Descargar y dar permisos al programa
 ```sh
@@ -72,6 +74,7 @@ sudo reboot
 ```
 
 Descargar imágenes:
+
 Se deberán descargar las siguientes imágenes de docker para que nuestra aplicación pueda correr.
 
 ```sh
@@ -114,6 +117,7 @@ docker-compose restart
 # Frontend
 Para el frontend del sistema se utilizó el framework CSS de Materialize (https://materializecss.com)
 Para la programación se utilizó Typescript y HTML.
+
 La funcionalidad del sistema es administrar (ABM) una lista de dispositivos eléctricos de una casa inteligente.
 Se pueden agregar dispositivos nuevos, modificar existentes y eliminarlos.
 El sistema permite la carga de 2 tipos de dispositivos, dispositivos de accionamiento tipo interruptor y dispositivos dimmer.
@@ -127,24 +131,36 @@ En la siguiente figura se muestra la página al ingresar un nuevo dispositivo.
 En la figura se muestra la página al editar un dispositivo existente.
 ![frontend](doc/modaledit.png)
 
-También se puede realizar el dimerizado o el encendido y apagado de cada dispositivo. Dicho cambio impacta directamente en la base de datos. En un futuro, ese cambio impactará en los dispositivos reales. Para esto será necesario agregar campos a la base de dato y nuevos procedimientos del lado del servidor.
+También se puede realizar el dimerizado o el encendido y apagado de cada dispositivo. Dicho cambio impacta directamente en la base de datos.
+
+En un futuro, ese cambio impactará en los dispositivos reales. Para esto será necesario agregar campos a la base de dato y nuevos procedimientos del lado del servidor.
+
+Dentro del código del programa se pueden ver las notas de documentación sobre qué es lo que hace cada pedacito de código en particular.
 
 # Backend
 En el lado del backend se programaron las llamadas a la base de datos para que se inserten, actualicen y borren los datos de los dispositivos. También se realiza el envío de la respuesta al frontend con los datos necesarios en formato JSON.
+
 En el código se podrán observar todos los métodos encargados de guardar los datos provenientes del frontend.
 Se optó por utilizar solo recepción de métodos por POST y no GET, debido a que en el POST los datos viajan ocultos en el body. Para los métodos POST, se recojen los datos desde el objeto `req.body`.
 
+Dentro del código del programa se pueden ver las notas de documentación sobre qué es lo que hace cada pedacito de código en particular.
+
 # Base de datos
 Como vimos anteriormente en la instalación, se utiliza una base de datos MySQL que consta de una tabla llamada `Devices` con la siguiente estructura:
-  -`id` int(11) NOT NULL,
-  -`name` varchar(64) NOT NULL,
-  -`description` varchar(128) NOT NULL,
-  -`state` int(11) NOT NULL,
-  -`type` int(11) NOT NULL
 
-El campo `id` está definido como clave primaria.\
+Esto iniciará los siguientes servicios:
+
+- `id` int(11) NOT NULL
+- `name` varchar(64) NOT NULL
+- `description` varchar(128) NOT NULL
+- `state` int(11) NOT NULL
+- `type` int(11) NOT NULL
+
+El campo `id` se utiliza como clave primaria. 
+
 El campo `state` almacena el estado del dispositivo, si es encendido y apagado utilizará los valores 1 y 0, respectivamente. En cambio para el tipo dimmer el valor del estado puede variar desde 0 a 100.
+
 El campo `type` en 0 indica interruptor y en 1 indica dimmer.
 
-# Licence
-This project is published under GPLV3+ licence.
+# Licencia
+Este proyecto está bajo Licencia ([MIT](https://choosealicense.com/licenses/mit/)). Podés ver el archivo [LICENSE.md](LICENSE.md) para más detalles sobre el uso de este material.
