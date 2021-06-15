@@ -4,44 +4,79 @@ var PORT = 3000;
 
 var express = require('express');
 var app = express();
-var utils = require('./mysql-connector');
+var mysqlConn = require('./mysql-connector');
 
 // to parse application/json
 app.use(express.json());
 // to serve static files
 app.use(express.static('/home/node/app/static/'));
 
-//Ejercicio 3
-var datos = require('./datos.json');
+// const filename= './datos.json';
+// var datos = require(filename);
 
-//Ejercicio 4
-app.get('/devices/', function(req, res) {
-    //res.send(datos);
-    res.json(datos);
-});
-
-//Ejercicio 5
-//Espera una consulta al endpoint EJ /devices/1
-//Parámetro id = el id del dispositivo a buscar
-// devuelve el dispositivo con el id que viene del parametro
-app.get('/devices/:id', function(req, res) {
-    let datosFiltrados = datos.filter(item => item.id == req.params.id);
-
-    res.json(datosFiltrados[0]);
-});
-
-//Ejercicio 6
-//Espera recibir {id:1,state:1/0} , impacta el cambio y lo devuelve
-app.post('/devices/', function(req, res) {
-    let datosFiltrados = datos.filter(item => item.id == req.body.id);
-    if (datosFiltrados.length > 0) {
-        datosFiltrados[0].state = req.body.state;
+//ESTE PROCESO EJECUTA AL REALIZARSE EL INSERT O EL UPDATE DEL FORMULARIO MODAL
+app.post('/insertupdate/', function(req, res) {
+    // LEVANTO PARAMETROS ENVIADOS EN EL POST POR ESO USO BODY
+    let elId= req.body.id;
+    let name =req.body.name;
+    let description =req.body.description;
+    let state =req.body.state;
+    let type =req.body.type;
+    console.log("ENTRANDO INSERTAR");
+    //SI EL ID ES "" ES INSERT SINO ES UPDATE
+    if (elId==""){
+        //EJECUTO EL INSERT
+        console.log("INSERTAR");
+        mysqlConn.query('insert into Devices (name,description,state,type) values(?,?,?,?)',[name, description,state, type],function(err,respuesta){
+            if(err){
+                console.log("ERROR AL INSERTAR");
+                res.send(err).status(400);
+            }
+            res.send("Se insertó el registro correctamente.");
+        });
+    }else{
+        //EJECUTO EL UPDATE
+        mysqlConn.query('update Devices set name=?, description=?, type=? where id=?',[name, description, type, elId],function(err,respuesta){
+            if(err){
+                res.send(err).status(400);
+            }
+            res.send("Se actualizó el registro correctamente.");
+        });
     }
-    //res.json(datosFiltrados);
-    res.send("Todo ok");
 });
 
-
+//ESTE PROCESO SE EJECUTA AL TOCAR SOBRE EL INTERRUPTOR O EL DIMMER DEL DISPOSITIVO PARA GUARDAR SU ESTADO
+app.post('/devices_update/', function(req, res) {
+    let elId= req.body.id;
+    let valor =req.body.status; // aqui puedo recibir un true/false o bien un nro entre 0 y 100
+    let spliting= elId.split("_");
+    let id = spliting[1];
+    mysqlConn.query('update Devices set state=? where id=?',[valor,id],function(err,respuesta){
+        if(err){
+            res.send(err).status(400);
+        }
+        res.send("Se actualizó el registro correctamente.");
+    });
+});
+//ESTE PROCESO CONSULTA TODOS LOS DISPOSITIVOS DE LA BASE DE DATOS PARA QUE SEAN MOSTRADOS EN EL DASHBOARD
+app.post('/show_devices/', function(req, res) {
+    mysqlConn.query('Select * from Devices',function(err,respuesta){
+        if(err){
+            res.send(err).status(400);
+        }
+        res.send(respuesta);
+     });
+});
+//ESTE PROCESO EJECUTA EL BORRADO DE UN REGISTRO DE LA BASE DE DATOS
+app.post('/eliminar/', function(req, res) {
+    let elId= req.body.id;
+    mysqlConn.query('delete from Devices where id=?',[elId],function(err,respuesta){
+        if(err){
+            res.send(err).status(400);
+        }
+        res.send(respuesta);
+     });
+});
 //=======[ Main module code ]==================================================
 app.listen(PORT, function(req, res) {
     console.log("NodeJS API running correctly");

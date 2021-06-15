@@ -11,7 +11,7 @@ main {
 
 
 .colorFondo{
-    background-color: rgb(189, 104, 104);
+    background-color: rgb(25, 86, 218);
        
 }
 .nombreDisp{
@@ -20,6 +20,6 @@ main {
 }
 
 .switch label .lever {
-    width: 100px ;
+    width: 35px ;
 }
 
