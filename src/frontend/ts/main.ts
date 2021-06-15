@@ -162,7 +162,7 @@ class Main implements EventListenerObject, HandlerPost{
         }
     }
     responsePost(status: number, response: string) {
-        alert(response);
+        //alert(response);
         console.log(response);
         //SE REFRESCA EL FORMULARIO PARA QUE SE ACTUALICEN LOS CAMBIOS REALIZADOS
         location.reload();
